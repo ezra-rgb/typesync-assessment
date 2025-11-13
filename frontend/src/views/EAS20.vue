@@ -303,7 +303,7 @@ export default {
         console.log('Submitting EAS-20 assessment:', payload)
 
         // Use relative URL - vite proxy handles it
-        const response = await axios.post('/api/assessments/eas20/save', payload)
+        const response = await axios.post('/api/assessments/eas20/submit', payload)
 
         if (response.data?.success && response.data?.assessment_id) {
           const assessmentId = response.data.assessment_id

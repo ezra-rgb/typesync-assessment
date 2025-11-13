@@ -95,7 +95,7 @@ def health():
 # EAS-20 ENDPOINTS
 # ============================================================================
 
-@app.post('/api/assessments/eas20/save')
+@app.post('/api/assessments/eas20/submit')
 def save_eas20(
     data: dict,
     db: Session = Depends(get_db)
@@ -171,7 +171,7 @@ def get_eas20(
 # AAS ENDPOINTS
 # ============================================================================
 
-@app.post('/api/assessments/aas/save')
+@app.post('/api/assessments/aas/submit')
 def save_aas(
     data: dict,
     db: Session = Depends(get_db)

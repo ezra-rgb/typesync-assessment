@@ -428,7 +428,7 @@ const submitAssessment = async () => {
     console.log('Submitting AAS assessment:', payload)
 
     // Use relative URL - vite proxy handles it
-    const response = await axios.post('/api/assessments/aas/save', payload)
+    const response = await axios.post('/api/assessments/aas/submit', payload)
 
     if (response.data?.success && response.data?.assessment_id) {
       const assessmentId = response.data.assessment_id
