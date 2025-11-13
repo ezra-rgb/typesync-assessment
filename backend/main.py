@@ -19,10 +19,13 @@ logger = logging.getLogger(__name__)
 # Database setup
 DATABASE_URL = os.getenv(
     'DATABASE_URL',
-    'postgresql://user:password@localhost/typesync_landing'
+    'sqlite:///./typesync.db'
 )
 
-engine = create_engine(DATABASE_URL)
+engine = create_engine(
+    DATABASE_URL,
+    connect_args={"check_same_thread": False} if "sqlite" in DATABASE_URL else {}
+)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 # FastAPI app
