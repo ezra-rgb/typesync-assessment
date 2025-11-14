@@ -291,38 +291,43 @@ export default {
       }
     },
     async submitAssessment() {
-      if (!this.isAllAnswered) return
+  if (!this.isAllAnswered) return
 
-      try {
-        // Send payload WITHOUT assessment_id - backend will generate it
-        const payload = {
-          responses: this.responses,
-          domain_scores: this.calculateDomainScores(),
-        }
+  try {
+    // Send payload WITHOUT assessment_id - backend will generate it
+    const payload = {
+      responses: this.responses,
+      domain_scores: this.calculateDomainScores(),
+    }
 
-        console.log('Submitting EAS-20 assessment:', payload)
+    console.log('Submitting EAS-20 assessment:', payload)
 
-        // Use relative URL - vite proxy handles it
-        const response = await axios.post('/api/assessments/eas20/submit', payload)
+    // Add explicit headers for proper JSON handling
+    const response = await axios.post('/api/assessments/eas20/submit', payload, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      timeout: 30000
+    })
 
-        if (response.data?.success && response.data?.assessment_id) {
-          const assessmentId = response.data.assessment_id
-          console.log('✅ EAS-20 saved with ID:', assessmentId)
+    if (response.data?.success && response.data?.assessment_id) {
+      const assessmentId = response.data.assessment_id
+      console.log('✅ EAS-20 saved with ID:', assessmentId)
 
-          this.calculateScores()
-          this.showResults = true
-          this.$nextTick(() => {
-            this.renderRadarChart()
-          })
-        } else {
-          throw new Error('Invalid response format')
-        }
-      } catch (error) {
-        console.error('Assessment error:', error)
-        this.message = error.message || 'Failed to submit assessment'
-        this.messageType = 'error'
-      }
-    },
+      this.calculateScores()
+      this.showResults = true
+      this.$nextTick(() => {
+        this.renderRadarChart()
+      })
+    } else {
+      throw new Error('Invalid response format')
+    }
+  } catch (error) {
+    console.error('Assessment error:', error)
+    this.message = error.message || 'Failed to submit assessment'
+    this.messageType = 'error'
+  }
+},
     calculateScores() {
       const domainMapping = {
         Strategist: [0, 1, 2],
