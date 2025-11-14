@@ -151,33 +151,31 @@ export default {
   },
   methods: {
     async fetchResults() {
-      try {
-        this.loading = true
-        this.error = null
+  try {
+    this.loading = true
+    this.error = null
 
-        // Try to fetch from backend
-        const response = await axios.get(
-          `${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/results/${this.assessmentId}`
-        )
+    // Use full backend URL directly
+    const response = await axios.get(
+      `https://typesync-backend-ipca.onrender.com/api/results/${this.assessmentId}`
+    )
 
-        const data = response.data
-        this.assessmentType = data.type || 'Assessment'
-        this.scores = data.scores || {}
-        this.responses = data.responses || []
-        this.createdAt = data.created_at || new Date().toISOString()
+    const data = response.data
+    this.assessmentType = data.type || 'Assessment'
+    this.scores = data.scores || {}
+    this.responses = data.responses || []
+    this.createdAt = data.created_at || new Date().toISOString()
 
-        // Initialize chart
-        this.$nextTick(() => {
-          this.initializeChart()
-        })
-      } catch (err) {
-        console.error('Error fetching results:', err)
-        // Fallback to localStorage
-        this.fetchFromLocalStorage()
-      } finally {
-        this.loading = false
-      }
-    },
+    this.$nextTick(() => {
+      this.initializeChart()
+    })
+  } catch (err) {
+    console.error('Error fetching results:', err)
+    this.fetchFromLocalStorage()
+  } finally {
+    this.loading = false
+  }
+},
 
     fetchFromLocalStorage() {
       try {
