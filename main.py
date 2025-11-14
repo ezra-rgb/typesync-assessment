@@ -16,8 +16,11 @@ class EAS20SubmitRequest(BaseModel):
     domain_scores: Dict[str, int]
 
 class AASSubmitRequest(BaseModel):
-    responses: List[int]
-    domain_scores: Dict[str, int]
+    responses: list = None
+    domain_scores: dict = None
+    
+    class Config:
+        extra = 'allow'
 
 # Load environment variables from .env file
 load_dotenv()
