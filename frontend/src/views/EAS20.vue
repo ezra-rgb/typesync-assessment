@@ -143,7 +143,7 @@
 </template>
 
 <script>
-import axios from '@/utils/axios-config'
+import axios from 'axios'  // NOT from '@/utils/axios-config'
 import { Chart } from 'chart.js/auto'
 import { useRouter } from 'vue-router'
 
