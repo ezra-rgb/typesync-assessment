@@ -413,8 +413,8 @@ const submitAssessment = async () => {
 
     // Send payload WITHOUT assessment_id - backend will generate it
     const payload = {
-      responses: flatResponses,
-      scores: {
+        responses: flatResponses,
+        domain_scores: {
         Strategist: archetypeScores[0],
         Guardian: archetypeScores[1],
         Innovator: archetypeScores[2],
