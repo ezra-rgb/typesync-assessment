@@ -8,6 +8,16 @@ import json
 import uuid
 import logging
 from dotenv import load_dotenv
+from pydantic import BaseModel
+from typing import List, Dict
+
+class EAS20SubmitRequest(BaseModel):
+    responses: List[int]
+    domain_scores: Dict[str, int]
+
+class AASSubmitRequest(BaseModel):
+    responses: List[int]
+    domain_scores: Dict[str, int]
 
 # Load environment variables from .env file
 load_dotenv()
@@ -97,31 +107,17 @@ def health():
 
 @app.post('/api/assessments/eas20/submit')
 def save_eas20(
-    data: dict,
+    data: EAS20SubmitRequest,
     db: Session = Depends(get_db)
 ):
-    """
-    Save EAS-20 assessment results
-    
-    Expected data structure:
-    {
-        "responses": [1, 2, 3, 4, 5, ...],  // 20 ratings
-        "scores": {
-            "Strategist": 85,
-            "Guardian": 70,
-            ...
-        }
-    }
-    """
+    """Save EAS-20 assessment results"""
     try:
-        # Generate unique assessment ID
         assessment_id = str(uuid.uuid4())
         
-        # Create assessment record
         assessment = EAS20Assessment(
             assessment_id=assessment_id,
-            responses=json.dumps(data.get('responses', [])),
-            scores=json.dumps(data.get('scores', {})),
+            responses=json.dumps(data.responses),
+            scores=json.dumps(data.domain_scores),
             created_at=datetime.utcnow()
         )
         
@@ -173,31 +169,17 @@ def get_eas20(
 
 @app.post('/api/assessments/aas/submit')
 def save_aas(
-    data: dict,
+    data: AASSubmitRequest,
     db: Session = Depends(get_db)
 ):
-    """
-    Save AAS assessment results
-    
-    Expected data structure:
-    {
-        "responses": [1, 2, 3, ...],
-        "scores": {
-            "Strategist": 90,
-            "Guardian": 65,
-            ...
-        }
-    }
-    """
+    """Save AAS assessment results"""
     try:
-        # Generate unique assessment ID
         assessment_id = str(uuid.uuid4())
         
-        # Create assessment record
         assessment = AASAssessment(
             assessment_id=assessment_id,
-            responses=json.dumps(data.get('responses', [])),
-            scores=json.dumps(data.get('scores', {})),
+            responses=json.dumps(data.responses),
+            scores=json.dumps(data.domain_scores),
             created_at=datetime.utcnow()
         )
         
@@ -295,9 +277,11 @@ def get_results(
 
 if __name__ == '__main__':
     import uvicorn
+    port = int(os.getenv('PORT', 8000))
     uvicorn.run(
         'main:app',
         host='0.0.0.0',
-        port=8000,
-        reload=True
+        port=port,
+        reload=False  # Set to False for production
     )
+
