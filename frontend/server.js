@@ -10,8 +10,8 @@ const app = express();
 const distPath = path.join(__dirname, 'dist');
 app.use(express.static(distPath));
 
-// SPA fallback: serve index.html for all non-asset routes
-app.get('/*', (req, res) => {
+// SPA fallback: serve index.html for all non-file requests using regex
+app.get(/^(?!.*\.)/, (req, res) => {
   res.sendFile(path.join(distPath, 'index.html'));
 });
 
