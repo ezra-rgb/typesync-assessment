@@ -3,14 +3,20 @@ import { createRouter, createWebHistory } from 'vue-router'
 import App from './App.vue'
 
 // View imports
+import Intro from './views/Intro.vue'
 import Home from './views/Home.vue'
 import Results from './views/Results.vue'
-import TypeSyncSecret from './views/TypeSyncSecret.vue'  // ✅ ADD THIS
+import TypeSyncSecret from './views/TypeSyncSecret.vue'
 
-// Route definitions - 5 routes total
+// Route definitions
 const routes = [
   {
     path: '/',
+    name: 'Intro',
+    component: Intro
+  },
+  {
+    path: '/home',
     name: 'Home',
     component: Home
   },
@@ -30,23 +36,17 @@ const routes = [
     component: Results
   },
   {
-    path: '/typesync-secret',  // ✅ ADD THIS
+    path: '/typesync-secret',
     name: 'TypeSyncSecret',
     component: TypeSyncSecret
   }
 ]
 
-// Create router
 const router = createRouter({
   history: createWebHistory(),
   routes
 })
 
-// Create app
 const app = createApp(App)
-
-// Use router
 app.use(router)
-
-// Mount app
 app.mount('#app')
