@@ -5,8 +5,9 @@ import App from './App.vue'
 // View imports
 import Home from './views/Home.vue'
 import Results from './views/Results.vue'
+import TypeSyncSecret from './views/TypeSyncSecret.vue'  // ✅ ADD THIS
 
-// Route definitions - 4 routes total
+// Route definitions - 5 routes total
 const routes = [
   {
     path: '/',
@@ -27,6 +28,11 @@ const routes = [
     path: '/results/:id',
     name: 'Results',
     component: Results
+  },
+  {
+    path: '/typesync-secret',  // ✅ ADD THIS
+    name: 'TypeSyncSecret',
+    component: TypeSyncSecret
   }
 ]
 

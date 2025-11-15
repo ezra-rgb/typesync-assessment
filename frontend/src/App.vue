@@ -7,6 +7,7 @@
           <router-link to="/">Home</router-link>
           <router-link to="/eas20">EAS-20</router-link>
           <router-link to="/aas">AAS</router-link>
+          <router-link to="/typesync-secret" class="secret-link">✨</router-link>
         </nav>
       </div>
     </header>
@@ -215,4 +216,23 @@ html {
 ::-webkit-scrollbar-thumb:hover {
   background: #764ba2;
 }
+
+.secret-link {
+  opacity: 0.3;
+  font-size: 1.3rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+}
+
+.secret-link:hover {
+  opacity: 1;
+  transform: scale(1.2);
+}
+
+.secret-link.router-link-active {
+  opacity: 1;
+}
+
 </style>
